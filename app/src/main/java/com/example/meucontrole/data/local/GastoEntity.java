@@ -16,12 +16,14 @@ public class GastoEntity {
     private String tipoPagamento;
     private String data;
     private String horario;
+    private String tipo; // "RECEITA" (+) ou "DESPESA" (-)
 
     // Construtor vazio obrigatório para o Room
     public GastoEntity() {
+        this.tipo = "DESPESA";
     }
 
-    // Construtor completo com @Ignore para evitar avisos do compilador
+    // Construtor com 6 argumentos
     @Ignore
     public GastoEntity(String descricao, double valor, String categoria, String tipoPagamento, String data, String horario) {
         this.descricao = descricao;
@@ -30,9 +32,22 @@ public class GastoEntity {
         this.tipoPagamento = tipoPagamento;
         this.data = data;
         this.horario = horario;
+        this.tipo = "DESPESA";
     }
 
-    // Getters e Setters
+    // Construtor completo com @Ignore
+    @Ignore
+    public GastoEntity(String descricao, double valor, String categoria, String tipoPagamento, String data, String horario, String tipo) {
+        this.descricao = descricao;
+        this.valor = valor;
+        this.categoria = categoria;
+        this.tipoPagamento = tipoPagamento;
+        this.data = data;
+        this.horario = horario;
+        this.tipo = tipo != null ? tipo : "DESPESA";
+    }
+
+    // Getters e Setters (Essenciais para o Room gravar o campo tipo!)
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
@@ -53,4 +68,7 @@ public class GastoEntity {
 
     public String getHorario() { return horario; }
     public void setHorario(String horario) { this.horario = horario; }
+
+    public String getTipo() { return tipo; }
+    public void setTipo(String tipo) { this.tipo = tipo; }
 }

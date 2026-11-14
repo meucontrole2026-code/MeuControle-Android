@@ -41,19 +41,11 @@ public class IaVozActivity extends AppCompatActivity {
         cardSmartwatch = findViewById(R.id.cardSmartwatch);
         cardCarteiraVirtual = findViewById(R.id.cardCarteiraVirtual);
 
-        // Voltar
         findViewById(R.id.btnVoltar).setOnClickListener(v -> finish());
 
-        // 1. Falar com a IA (Voz)
         cardBtnOuvir.setOnClickListener(v -> iniciarReconhecimentoVoz());
-
-        // 2. Leitura REAL de Cupom Fiscal (Abre a galeria/ficheiros para selecionar a foto do talão)
         cardCupomFiscal.setOnClickListener(v -> selecionarImagemCupomFiscal());
-
-        // 3. Sincronizar Smartwatch
         cardSmartwatch.setOnClickListener(v -> abrirConfiguracoesNotificacao("Smartwatch"));
-
-        // 4. Sincronizar Carteira Virtual
         cardCarteiraVirtual.setOnClickListener(v -> abrirConfiguracoesNotificacao("Carteira Virtual"));
     }
 
@@ -61,7 +53,7 @@ public class IaVozActivity extends AppCompatActivity {
         Intent intent = new Intent(android.speech.RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE_MODEL, android.speech.RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(android.speech.RecognizerIntent.EXTRA_LANGUAGE, "pt-BR");
-        intent.putExtra(android.speech.RecognizerIntent.EXTRA_PROMPT, "Diga o seu gasto (ex: Mercado 48.50 reais)");
+        intent.putExtra(android.speech.RecognizerIntent.EXTRA_PROMPT, "Diga a transação (ex: Ganhei 200 reais de salário ou Gastei 48.50 no mercado)");
 
         intent.putExtra(android.speech.RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, 5000L);
         intent.putExtra(android.speech.RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, 3000L);
@@ -85,7 +77,7 @@ public class IaVozActivity extends AppCompatActivity {
     }
 
     private void abrirConfiguracoesNotificacao(String tipo) {
-        Toast.makeText(this, "Ative o acesso para detetar gastos do " + tipo, Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Ative o acesso para detetar transações do " + tipo, Toast.LENGTH_LONG).show();
         try {
             Intent intent = new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS);
             startActivity(intent);
@@ -113,7 +105,6 @@ public class IaVozActivity extends AppCompatActivity {
         }
     }
 
-    // Leitura REAL do texto da imagem usando o Google ML Kit OCR
     private void processarOCRRealCupom(Uri imageUri) {
         txtStatusVoz.setText("A ler o cupom fiscal com IA...");
         try {
@@ -134,12 +125,10 @@ public class IaVozActivity extends AppCompatActivity {
         }
     }
 
-    // Extração inteligente do valor e estabelecimento a partir do texto real detetado no cupom
     private void analisarTextoCupomReal(String textoOCR) {
         String estabelecimento = "Estabelecimento";
         double maiorValor = 0.0;
 
-        // Procura a primeira linha com texto válido para usar como nome do local
         String[] linhas = textoOCR.split("\n");
         if (linhas.length > 0 && !linhas[0].trim().isEmpty()) {
             estabelecimento = linhas[0].trim();
@@ -148,7 +137,6 @@ public class IaVozActivity extends AppCompatActivity {
             }
         }
 
-        // Regex para encontrar valores monetários no formato 00,00 ou 00.00 no talão
         Pattern pattern = Pattern.compile("(\\d+[,.]\\d{2})");
         Matcher matcher = pattern.matcher(textoOCR);
 
@@ -156,17 +144,16 @@ public class IaVozActivity extends AppCompatActivity {
             try {
                 String valorStr = matcher.group(1).replace(",", ".");
                 double v = Double.parseDouble(valorStr);
-                if (v > maiorValor && v < 10000.0) { // Ignora números de CNPJ ou códigos altos
+                if (v > maiorValor && v < 10000.0) {
                     maiorValor = v;
                 }
             } catch (Exception ignored) {}
         }
 
         if (maiorValor == 0.0) {
-            maiorValor = 15.00; // Valor padrão caso não encontre explicitamente
+            maiorValor = 15.00;
         }
 
-        // Categorização automática baseada no nome detetado
         String categoria = "Alimentação";
         String tLower = estabelecimento.toLowerCase();
         if (tLower.contains("farmacia") || tLower.contains("drogaria") || tLower.contains("saude")) {
@@ -182,7 +169,7 @@ public class IaVozActivity extends AppCompatActivity {
         final String horaAgora = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
 
         new Thread(() -> {
-            GastoEntity novoGasto = new GastoEntity(estabFinal, valorFinal, catFinal, "Cupom Fiscal", dataHoje, horaAgora);
+            GastoEntity novoGasto = new GastoEntity(estabFinal, valorFinal, catFinal, "Cupom Fiscal", dataHoje, horaAgora, "DESPESA");
             AppDatabase.getInstance(getApplicationContext()).gastoDao().inserir(novoGasto);
 
             runOnUiThread(() -> {
@@ -193,44 +180,74 @@ public class IaVozActivity extends AppCompatActivity {
     }
 
     private void processarComandoVoz(String texto) {
-        // (A tua lógica existente de voz mantém-se idêntica e perfeita)
         txtStatusVoz.setText("Processando voz: \"" + texto + "\"...");
 
         double valorCalculado = 0.0;
+
+        // --- EXTRATOR DE VALOR ROBUSTO POR REGEX ---
         try {
-            String limpo = texto.replaceAll("[^0-9,.]", "");
-            if (!limpo.isEmpty()) {
-                limpo = limpo.replace(",", ".");
-                int ultimoPonto = limpo.lastIndexOf('.');
-                if (ultimoPonto != -1) {
-                    String parteInteira = limpo.substring(0, ultimoPonto).replace(".", "");
-                    String parteDecimal = limpo.substring(ultimoPonto);
-                    limpo = parteInteira + parteDecimal;
-                }
-                valorCalculado = Double.parseDouble(limpo);
+            Pattern patternValor = Pattern.compile("(\\d+([.,]\\d{1,2})?)");
+            Matcher matcherValor = patternValor.matcher(texto.replace("R$", "").replace("reais", "").replace("real", ""));
+            if (matcherValor.find()) {
+                String valStr = matcherValor.group(1).replace(",", ".");
+                valorCalculado = Double.parseDouble(valStr);
             }
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            // Fallback caso falhe o regex
+            try {
+                String limpo = texto.replaceAll("[^0-9,.]", "").replace(",", ".");
+                if (!limpo.isEmpty()) {
+                    valorCalculado = Double.parseDouble(limpo);
+                }
+            } catch (Exception ignored) {}
+        }
+
+        // Deteção automática de RECEITA vs DESPESA por palavras-chave
+        String t = texto.toLowerCase();
+        String tipoDetectado = "DESPESA";
+        if (t.contains("ganhei") || t.contains("recebi") || t.contains("pix de") ||
+                t.contains("salário") || t.contains("salario") || t.contains("depósito") ||
+                t.contains("deposito") || t.contains("venda") || t.contains("recebimento")) {
+            tipoDetectado = "RECEITA";
+        }
 
         String categoriaCalculada = "Outros";
-        String descricaoCalculada = "Despesa";
-        String t = texto.toLowerCase();
+        String descricaoCalculada = "Transação";
 
-        if (t.contains("uber") || t.contains("táxi") || t.contains("gasolina") || t.contains("transporte")) {
-            categoriaCalculada = "Transporte";
-            descricaoCalculada = t.contains("uber") ? "Uber" : "Transporte";
-        } else if (t.contains("almoço") || t.contains("jantar") || t.contains("mercado") || t.contains("supermercado") || t.contains("comida")) {
-            categoriaCalculada = "Alimentação";
-            descricaoCalculada = t.contains("mercado") ? "Mercado" : "Alimentação";
-        } else if (t.contains("farmácia") || t.contains("médico") || t.contains("saúde")) {
-            categoriaCalculada = "Saúde";
-            descricaoCalculada = "Farmácia";
+        if ("RECEITA".equals(tipoDetectado)) {
+            categoriaCalculada = "Salário/Entrada";
+            descricaoCalculada = "Entrada / Salário";
+
+            // Tenta extrair a descrição específica se disser "ganhei X de [origem]"
+            if (t.contains(" de ")) {
+                try {
+                    String[] partes = t.split(" de ");
+                    if (partes.length > 1) {
+                        String origem = partes[1].trim();
+                        if (!origem.isEmpty()) {
+                            descricaoCalculada = "Entrada: " + origem.substring(0, 1).toUpperCase() + origem.substring(1);
+                        }
+                    }
+                } catch (Exception ignored) {}
+            }
         } else {
-            String limpoTexto = texto.replaceAll("(?i)(gastei|reais|real|no|na|com|de|por|R\\$)", "").trim();
-            if (!limpoTexto.isEmpty()) {
-                limpoTexto = limpoTexto.replaceAll("[0-9.,]", "").trim();
-                descricaoCalculada = !limpoTexto.isEmpty() ? limpoTexto.substring(0, 1).toUpperCase() + limpoTexto.substring(1) : categoriaCalculada;
+            if (t.contains("uber") || t.contains("táxi") || t.contains("gasolina") || t.contains("transporte")) {
+                categoriaCalculada = "Transporte";
+                descricaoCalculada = t.contains("uber") ? "Uber" : "Transporte";
+            } else if (t.contains("almoço") || t.contains("jantar") || t.contains("mercado") || t.contains("supermercado") || t.contains("comida")) {
+                categoriaCalculada = "Alimentação";
+                descricaoCalculada = t.contains("mercado") ? "Mercado" : "Alimentação";
+            } else if (t.contains("farmácia") || t.contains("médico") || t.contains("saúde")) {
+                categoriaCalculada = "Saúde";
+                descricaoCalculada = "Farmácia";
             } else {
-                descricaoCalculada = categoriaCalculada;
+                String limpoTexto = texto.replaceAll("(?i)(gastei|ganhei|recebi|reais|real|no|na|com|de|por|R\\$)", "").trim();
+                if (!limpoTexto.isEmpty()) {
+                    limpoTexto = limpoTexto.replaceAll("[0-9.,]", "").trim();
+                    descricaoCalculada = !limpoTexto.isEmpty() ? limpoTexto.substring(0, 1).toUpperCase() + limpoTexto.substring(1) : categoriaCalculada;
+                } else {
+                    descricaoCalculada = categoriaCalculada;
+                }
             }
         }
 
@@ -245,15 +262,17 @@ public class IaVozActivity extends AppCompatActivity {
         final String categoriaFinal = categoriaCalculada;
         final String descricaoFinal = descricaoCalculada;
         final String pagamentoFinal = pagamentoCalculado;
+        final String tipoFinal = tipoDetectado;
         final String dataHoje = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
         final String horaAgora = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
 
         new Thread(() -> {
-            GastoEntity novoGasto = new GastoEntity(descricaoFinal, valorFinal, categoriaFinal, pagamentoFinal, dataHoje, horaAgora);
+            GastoEntity novoGasto = new GastoEntity(descricaoFinal, valorFinal, categoriaFinal, pagamentoFinal, dataHoje, horaAgora, tipoFinal);
             AppDatabase.getInstance(getApplicationContext()).gastoDao().inserir(novoGasto);
 
             runOnUiThread(() -> {
-                Toast.makeText(this, "Gasto registado por voz! 🚀", Toast.LENGTH_SHORT).show();
+                String msgToast = "RECEITA".equals(tipoFinal) ? "Receita registada por voz! 💰" : "Gasto registado por voz! 🚀";
+                Toast.makeText(this, msgToast, Toast.LENGTH_SHORT).show();
                 txtStatusVoz.setText("Pronto! \"" + descricaoFinal + "\" de R$ " + String.format("%.2f", valorFinal) + " guardado.");
             });
         }).start();

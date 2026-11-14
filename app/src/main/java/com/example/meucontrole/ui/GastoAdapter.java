@@ -1,5 +1,6 @@
 package com.example.meucontrole.ui;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,14 +47,25 @@ public class GastoAdapter extends RecyclerView.Adapter<GastoAdapter.GastoViewHol
                 (gasto.getHorario() != null && !gasto.getHorario().isEmpty() ? " · " + gasto.getHorario() : "");
         holder.txtDataHora.setText(dataHora);
 
-        holder.txtValor.setText(String.format("-R$ %.2f", gasto.getValor()));
+        // Tratamento dinâmico para Receitas (+) e Despesas (-)
+        String tipo = gasto.getTipo() != null ? gasto.getTipo() : "DESPESA";
+        if (tipo.equalsIgnoreCase("RECEITA")) {
+            holder.txtValor.setText(String.format("+R$ %.2f", gasto.getValor()));
+            holder.txtValor.setTextColor(Color.parseColor("#10B981")); // Verde para entradas
+        } else {
+            holder.txtValor.setText(String.format("-R$ %.2f", gasto.getValor()));
+            holder.txtValor.setTextColor(Color.parseColor("#EF4444")); // Vermelho para despesas
+        }
+
         holder.txtPagamento.setText(gasto.getTipoPagamento());
 
         // Ícones e emojis inteligentes baseados na categoria ou descrição
         String cat = gasto.getCategoria() != null ? gasto.getCategoria() : "";
         String desc = gasto.getDescricao() != null ? gasto.getDescricao().toLowerCase() : "";
 
-        if (cat.equalsIgnoreCase("Alimentação") || desc.contains("food") || desc.contains("burguer") || desc.contains("mercado") || desc.contains("almoço")) {
+        if (cat.equalsIgnoreCase("Salário/Entrada") || desc.contains("salário") || desc.contains("ganhei") || desc.contains("recebi") || desc.contains("pix")) {
+            holder.txtIconeEmoji.setText("💰");
+        } else if (cat.equalsIgnoreCase("Alimentação") || desc.contains("food") || desc.contains("burguer") || desc.contains("mercado") || desc.contains("almoço")) {
             holder.txtIconeEmoji.setText("🍔");
         } else if (cat.equalsIgnoreCase("Transporte") || desc.contains("uber") || desc.contains("táxi") || desc.contains("gasolina")) {
             holder.txtIconeEmoji.setText("🚗");

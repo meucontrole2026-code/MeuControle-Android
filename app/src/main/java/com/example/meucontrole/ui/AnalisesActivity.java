@@ -53,7 +53,6 @@ public class AnalisesActivity extends AppCompatActivity {
             return;
         }
 
-        // Inicializar Firebase com segurança (Resolve o crash do FirebaseApp)
         try {
             if (FirebaseApp.getApps(this).isEmpty()) {
                 FirebaseApp.initializeApp(this);
@@ -63,7 +62,6 @@ public class AnalisesActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        // Inicializar Views com proteção
         btnVoltar = findViewById(R.id.btnVoltar);
         txtGastoVsRenda = findViewById(R.id.txtGastoVsRenda);
         txtPorcentagemUso = findViewById(R.id.txtPorcentagemUso);
@@ -85,7 +83,6 @@ public class AnalisesActivity extends AppCompatActivity {
             btnBaixarPdf.setOnClickListener(v -> gerarRelatorioPdfReal());
         }
 
-        // Observar Room com segurança
         if (database != null && database.gastoDao() != null) {
             database.gastoDao().obterTodosGastos().observe(this, listaGastos -> {
                 listaGastosAtual = listaGastos != null ? listaGastos : new ArrayList<>();
@@ -98,7 +95,7 @@ public class AnalisesActivity extends AppCompatActivity {
 
     private void calcularEAtualizarDashboard(List<GastoEntity> listaGastos) {
         if (listaGastos == null || listaGastos.isEmpty()) {
-            if (txtGastoVsRenda != null) txtGastoVsRenda.setText("Nenhum gasto registado ainda.");
+            if (txtGastoVsRenda != null) txtGastoVsRenda.setText("Nenhum registo ainda.");
             if (txtPorcentagemUso != null) txtPorcentagemUso.setText("0%");
             if (progressOrcamento != null) progressOrcamento.setProgress(0);
             if (txtMaiorGasto != null) txtMaiorGasto.setText("R$ 0,00");
@@ -113,37 +110,44 @@ public class AnalisesActivity extends AppCompatActivity {
 
         float rendaFixa = sharedPreferences.getFloat("rendaFixa", 2500.0f);
         float rendaVariavel = sharedPreferences.getFloat("rendaVariavel", 1300.0f);
-        double rendaTotal = rendaFixa + rendaVariavel;
+        double rendaBaseTotal = rendaFixa + rendaVariavel;
 
-        double totalGastos = 0.0;
+        double totalDespesas = 0.0;
+        double totalReceitasExtras = 0.0;
         double maiorValorGasto = 0.0;
         Map<String, Double> mapCategorias = new HashMap<>();
         Map<String, Double> mapPagamentos = new HashMap<>();
 
         for (GastoEntity g : listaGastos) {
             double v = g.getValor();
-            totalGastos += v;
-            if (v > maiorValorGasto) maiorValorGasto = v;
+            String tipo = g.getTipo() != null ? g.getTipo() : "DESPESA";
 
-            String cat = g.getCategoria() != null ? g.getCategoria() : "Outros";
-            mapCategorias.put(cat, mapCategorias.getOrDefault(cat, 0.0) + v);
+            if ("RECEITA".equalsIgnoreCase(tipo)) {
+                totalReceitasExtras += v;
+            } else {
+                totalDespesas += v;
+                if (v > maiorValorGasto) maiorValorGasto = v;
+
+                String cat = g.getCategoria() != null ? g.getCategoria() : "Outros";
+                mapCategorias.put(cat, mapCategorias.getOrDefault(cat, 0.0) + v);
+            }
 
             String pag = g.getTipoPagamento() != null ? g.getTipoPagamento() : "PIX";
             mapPagamentos.put(pag, mapPagamentos.getOrDefault(pag, 0.0) + v);
         }
 
-        int porcentagem = rendaTotal > 0 ? (int) ((totalGastos / rendaTotal) * 100) : 0;
+        double rendaTotalGeral = rendaBaseTotal + totalReceitasExtras;
+        int porcentagem = rendaTotalGeral > 0 ? (int) ((totalDespesas / rendaTotalGeral) * 100) : 0;
         if (porcentagem > 100) porcentagem = 100;
 
         if (progressOrcamento != null) progressOrcamento.setProgress(porcentagem);
-        if (txtGastoVsRenda != null) txtGastoVsRenda.setText(String.format("Gasto R$ %.2f de R$ %.2f", totalGastos, rendaTotal));
+        if (txtGastoVsRenda != null) txtGastoVsRenda.setText(String.format("Gasto R$ %.2f de R$ %.2f", totalDespesas, rendaTotalGeral));
         if (txtPorcentagemUso != null) txtPorcentagemUso.setText(porcentagem + "%");
 
         if (txtMaiorGasto != null) txtMaiorGasto.setText(String.format("R$ %.2f", maiorValorGasto));
-        double mediaDiaria = totalGastos / 30.0;
+        double mediaDiaria = totalDespesas / 30.0;
         if (txtMediaDiaria != null) txtMediaDiaria.setText(String.format("R$ %.2f / dia", mediaDiaria));
 
-        // Gráfico de Pizza protegido contra falhas de biblioteca
         if (pieChartCategorias != null) {
             try {
                 ArrayList<PieEntry> pieEntries = new ArrayList<>();
@@ -151,7 +155,7 @@ public class AnalisesActivity extends AppCompatActivity {
                     pieEntries.add(new PieEntry(entry.getValue().floatValue(), entry.getKey()));
                 }
 
-                PieDataSet dataSet = new PieDataSet(pieEntries, "Categorias");
+                PieDataSet dataSet = new PieDataSet(pieEntries, "Despesas por Categoria");
                 dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
                 dataSet.setValueTextSize(12f);
                 dataSet.setValueTextColor(Color.WHITE);
@@ -184,31 +188,45 @@ public class AnalisesActivity extends AppCompatActivity {
         String moeda = sharedPreferences.getString("moedaApp", "R$");
         float rendaFixa = sharedPreferences.getFloat("rendaFixa", 2500.0f);
         float rendaVariavel = sharedPreferences.getFloat("rendaVariavel", 1300.0f);
-        float rendaTotal = rendaFixa + rendaVariavel;
+        float rendaBaseTotal = rendaFixa + rendaVariavel;
 
         double totalDespesas = 0;
+        double totalReceitas = 0;
         StringBuilder linhasTabela = new StringBuilder();
 
         for (GastoEntity g : listaGastosAtual) {
-            totalDespesas += g.getValor();
-            String badgeClass = "badge-outros";
+            double v = g.getValor();
+            String tipo = g.getTipo() != null ? g.getTipo() : "DESPESA";
             String cat = g.getCategoria() != null ? g.getCategoria() : "Outros";
 
-            if (cat.equalsIgnoreCase("Alimentação")) badgeClass = "badge-alim";
-            else if (cat.equalsIgnoreCase("Transporte")) badgeClass = "badge-trans";
-            else if (cat.equalsIgnoreCase("Lazer")) badgeClass = "badge-lazer";
+            String badgeClass = "badge-outros";
+            String corValor = "#EF4444";
+            String sinal = "- ";
+
+            if ("RECEITA".equalsIgnoreCase(tipo)) {
+                totalReceitas += v;
+                badgeClass = "badge-rec";
+                corValor = "#10B981";
+                sinal = "+ ";
+            } else {
+                totalDespesas += v;
+                if (cat.equalsIgnoreCase("Alimentação")) badgeClass = "badge-alim";
+                else if (cat.equalsIgnoreCase("Transporte")) badgeClass = "badge-trans";
+                else if (cat.equalsIgnoreCase("Lazer")) badgeClass = "badge-lazer";
+            }
 
             linhasTabela.append("<tr>")
                     .append("<td><span class=\"badge ").append(badgeClass).append("\">").append(cat).append("</span></td>")
                     .append("<td>").append(g.getDescricao() != null ? g.getDescricao() : "").append("</td>")
                     .append("<td>").append(g.getData() != null ? g.getData() : "").append("</td>")
-                    .append("<td style=\"text-align: right; color: #EF4444; font-weight: bold;\">")
-                    .append(String.format("%s %.2f", moeda, g.getValor()))
+                    .append("<td style=\"text-align: right; color: ").append(corValor).append("; font-weight: bold;\">")
+                    .append(String.format("%s%s %.2f", sinal, moeda, v))
                     .append("</td></tr>");
         }
 
-        double saldoDisponivel = rendaTotal - totalDespesas;
-        double percentualGasto = rendaTotal > 0 ? (totalDespesas / rendaTotal) * 100 : 0;
+        double rendaTotalGeral = rendaBaseTotal + totalReceitas;
+        double saldoDisponivel = rendaTotalGeral - totalDespesas;
+        double percentualGasto = rendaTotalGeral > 0 ? (totalDespesas / rendaTotalGeral) * 100 : 0;
 
         String htmlContent = "<!DOCTYPE html><html lang=\"pt-BR\"><head><meta charset=\"UTF-8\"><title>Relatório Financeiro</title>" +
                 "<style>" +
@@ -226,28 +244,29 @@ public class AnalisesActivity extends AppCompatActivity {
                 "th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #E2E8F0; }" +
                 "th { background-color: #F1F5F9; color: #1E293B; font-weight: bold; }" +
                 ".badge { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 8.5pt; font-weight: bold; }" +
+                ".badge-rec { background: #D1FAE5; color: #065F46; }" +
                 ".badge-alim { background: #FEF3C7; color: #92400E; }" +
                 ".badge-trans { background: #DBEAFE; color: #1E40AF; }" +
                 ".badge-lazer { background: #FCE7F3; color: #9D174D; }" +
                 ".badge-outros { background: #F1F5F9; color: #475569; }" +
                 ".ai-callout { background-color: #DCFCE7; border: 1px solid #BBF7D0; border-left: 4px solid #166534; padding: 14px; border-radius: 8px; font-size: 10pt; color: #166534; margin-top: 20px; }" +
                 "</style></head><body>" +
-                "<div class=\"header-banner\"><h1>MeuControle</h1><p>Relatório Analítico Mensal • Extrato Consolidado</p></div>" +
+                "<div class=\"header-banner\"><h1>MeuControle</h1><p>Relatório Analítico Consolidado • Receitas e Despesas</p></div>" +
                 "<div style=\"display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 10.5pt;\">" +
                 "<div><strong>Utilizador:</strong> " + nomeUsuario + "<br><strong>E-mail:</strong> " + emailFinal + "</div>" +
                 "<div style=\"text-align: right;\"><strong>Moeda:</strong> " + moeda + "</div>" +
                 "</div>" +
                 "<div class=\"kpi-container\">" +
-                "<div class=\"kpi-card\"><div class=\"kpi-label\">Renda Total</div><div class=\"kpi-value\" style=\"color: #1E63F5;\">" + String.format("%s %.2f", moeda, rendaTotal) + "</div></div>" +
+                "<div class=\"kpi-card success\"><div class=\"kpi-label\">Renda Total Geral</div><div class=\"kpi-value\" style=\"color: #10B981;\">" + String.format("%s %.2f", moeda, rendaTotalGeral) + "</div></div>" +
                 "<div class=\"kpi-card danger\"><div class=\"kpi-label\">Total Despesas</div><div class=\"kpi-value\" style=\"color: #EF4444;\">" + String.format("%s %.2f", moeda, totalDespesas) + "</div></div>" +
-                "<div class=\"kpi-card success\"><div class=\"kpi-label\">Saldo Disponível</div><div class=\"kpi-value\" style=\"color: #10B981;\">" + String.format("%s %.2f", moeda, saldoDisponivel) + "</div></div>" +
+                "<div class=\"kpi-card\"><div class=\"kpi-label\">Saldo Disponível</div><div class=\"kpi-value\" style=\"color: #1E63F5;\">" + String.format("%s %.2f", moeda, saldoDisponivel) + "</div></div>" +
                 "</div>" +
-                "<h3 style=\"margin-top: 24px; color: #1E293B; font-size: 13pt;\">Detalhamento por Categorias</h3>" +
+                "<h3 style=\"margin-top: 24px; color: #1E293B; font-size: 13pt;\">Extrato Completo de Transações</h3>" +
                 "<table><thead><tr><th>Categoria</th><th>Descrição</th><th>Data</th><th style=\"text-align: right;\">Valor</th></tr></thead><tbody>" +
-                (linhasTabela.length() > 0 ? linhasTabela.toString() : "<tr><td colspan=\"4\" style=\"text-align:center; color:#64748B;\">Nenhum gasto registado ainda.</td></tr>") +
+                (linhasTabela.length() > 0 ? linhasTabela.toString() : "<tr><td colspan=\"4\" style=\"text-align:center; color:#64748B;\">Nenhuma transação registada.</td></tr>") +
                 "</tbody></table>" +
-                "<div class=\"ai-callout\"><strong>✨ Análise Inteligente da IA:</strong> Suas despesas representam " + String.format("%.1f", percentualGasto) + "% da sua renda total. " +
-                (saldoDisponivel < 0 ? "⚠️ Atenção: O seu saldo encontra-se negativo!" : "Continue a gerir com sabedoria as suas finanças!") +
+                "<div class=\"ai-callout\"><strong>✨ Análise Inteligente da IA:</strong> As despesas representam " + String.format("%.1f", percentualGasto) + "% da receita total. " +
+                (saldoDisponivel < 0 ? "⚠️ Atenção: O seu saldo encontra-se negativo!" : "Excelente gestão financeira mantida no período!") +
                 "</div>" +
                 "</body></html>";
 
@@ -259,7 +278,7 @@ public class AnalisesActivity extends AppCompatActivity {
 
         if (printManager != null) {
             printManager.print("Relatorio_MeuControle", printAdapter, new PrintAttributes.Builder().build());
-            Toast.makeText(this, "A preparar relatório em PDF... 📄", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "A gerar relatório PDF... 📄", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Erro ao gerar PDF neste dispositivo.", Toast.LENGTH_SHORT).show();
         }

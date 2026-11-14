@@ -1,200 +1,176 @@
 package com.example.meucontrole.ui;
 
-import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.meucontrole.R;
 import com.example.meucontrole.data.local.AppDatabase;
 import com.example.meucontrole.data.local.GastoEntity;
+import com.google.android.material.button.MaterialButton;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 public class AdicionarGastoActivity extends AppCompatActivity {
 
-    private TextView txtValorDisplay, txtDataSelecionada, txtPagamentoSelecionado;
+    private TextView btnVoltar, txtValorDisplay, txtDataSelecionada, txtPagamentoSelecionado;
     private EditText inputDescricao;
-    private LinearLayout layoutData, layoutPagamento;
+    private RadioGroup rgTipoTransacao;
+    private MaterialButton btnSalvarGasto;
 
-    private TextView[] categoryViews;
-    private String categoriaSelecionada = "Alimentação";
-    private String formaPagamento = "Débito";
-    private String dataAtualStr = "";
-
-    private StringBuilder valorEmCents = new StringBuilder("0");
+    private String valorAtual = "0.00";
+    private String categoriaSelecionada = "Outros";
+    private String tipoPagamentoSelecionado = "Débito";
+    private String dataSelecionadaStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_gasto);
 
+        // Inicializar componentes com base nos IDs exatos do XML
+        btnVoltar = findViewById(R.id.btnVoltar);
         txtValorDisplay = findViewById(R.id.txtValorDisplay);
+        inputDescricao = findViewById(R.id.inputDescricao);
+        rgTipoTransacao = findViewById(R.id.rgTipoTransacao);
         txtDataSelecionada = findViewById(R.id.txtDataSelecionada);
         txtPagamentoSelecionado = findViewById(R.id.txtPagamentoSelecionado);
-        inputDescricao = findViewById(R.id.inputDescricao);
-        layoutData = findViewById(R.id.layoutData);
-        layoutPagamento = findViewById(R.id.layoutPagamento);
+        btnSalvarGasto = findViewById(R.id.btnSalvarGasto);
 
-        dataAtualStr = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
-        txtDataSelecionada.setText(dataAtualStr);
+        // Data atual por defeito
+        dataSelecionadaStr = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date());
+        if (txtDataSelecionada != null) {
+            txtDataSelecionada.setText(dataSelecionadaStr);
+        }
 
-        findViewById(R.id.btnVoltar).setOnClickListener(v -> finish());
+        if (btnVoltar != null) {
+            btnVoltar.setOnClickListener(v -> finish());
+        }
 
-        setupCategories();
-        setupKeypad();
+        // Configurar botões do teclado numérico
+        configurarTecladoNumerico();
 
-        layoutData.setOnClickListener(v -> mostrarDatePicker());
-        layoutPagamento.setOnClickListener(v -> mostrarDialogoPagamento());
-        findViewById(R.id.btnSalvarGasto).setOnClickListener(v -> salvarGasto());
+        // Configurar seleção de categorias
+        configurarCategorias();
+
+        if (btnSalvarGasto != null) {
+            btnSalvarGasto.setOnClickListener(v -> salvarTransacao());
+        }
     }
 
-    private void setupCategories() {
-        int[] catIds = {
-                R.id.catAlimentacao, R.id.catMoradia, R.id.catTransporte,
-                R.id.catSaude, R.id.catLazer, R.id.catCompras,
-                R.id.catEducacao, R.id.catContas, R.id.catOutros
-        };
-        String[] catNames = {
-                "Alimentação", "Moradia", "Transporte",
-                "Saúde", "Lazer", "Compras",
-                "Educação", "Contas", "Outros"
+    private void configurarTecladoNumerico() {
+        int[] idsBotoes = {
+                R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
+                R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9, R.id.btnDot
         };
 
-        categoryViews = new TextView[catIds.length];
-        for (int i = 0; i < catIds.length; i++) {
-            final int index = i;
-            categoryViews[i] = findViewById(catIds[i]);
+        View.OnClickListener listener = v -> {
+            MaterialButton b = (MaterialButton) v;
+            String textoBotao = b.getText().toString();
 
-            if (i == 0) categoryViews[i].setSelected(true);
+            if (valorAtual.equals("0.00")) {
+                if (textoBotao.equals(".")) {
+                    valorAtual = "0.";
+                } else {
+                    valorAtual = textoBotao;
+                }
+            } else {
+                if (textoBotao.equals(".") && valorAtual.contains(".")) return;
+                valorAtual += textoBotao;
+            }
+            atualizarDisplayValor();
+        };
 
-            categoryViews[i].setOnClickListener(v -> {
-                for (TextView tv : categoryViews) tv.setSelected(false);
-                categoryViews[index].setSelected(true);
-                categoriaSelecionada = catNames[index];
+        for (int id : idsBotoes) {
+            View btn = findViewById(id);
+            if (btn != null) btn.setOnClickListener(listener);
+        }
+
+        View btnDelete = findViewById(R.id.btnDelete);
+        if (btnDelete != null) {
+            btnDelete.setOnClickListener(v -> {
+                if (valorAtual.length() > 1) {
+                    valorAtual = valorAtual.substring(0, valorAtual.length() - 1);
+                } else {
+                    valorAtual = "0.00";
+                }
+                atualizarDisplayValor();
             });
         }
     }
 
-    private void setupKeypad() {
-        int[] btnIds = {
-                R.id.btn0, R.id.btn1, R.id.btn2, R.id.btn3, R.id.btn4,
-                R.id.btn5, R.id.btn6, R.id.btn7, R.id.btn8, R.id.btn9
+    private void atualizarDisplayValor() {
+        if (txtValorDisplay != null) {
+            txtValorDisplay.setText("R$ " + valorAtual);
+        }
+    }
+
+    private void configurarCategorias() {
+        int[] idsCats = {
+                R.id.catSalario, R.id.catAlimentacao, R.id.catMoradia,
+                R.id.catTransporte, R.id.catSaude, R.id.catLazer,
+                R.id.catCompras, R.id.catEducacao, R.id.catContas, R.id.catOutros
         };
 
-        for (int id : btnIds) {
-            ButtonViewHelper(id);
-        }
-
-        findViewById(R.id.btnDot).setOnClickListener(v -> {
-            if (!valorEmCents.toString().contains(".")) {
-                valorEmCents.append(".");
-                atualizarDisplayValor();
+        for (int id : idsCats) {
+            TextView catView = findViewById(id);
+            if (catView != null) {
+                catView.setOnClickListener(v -> {
+                    categoriaSelecionada = catView.getText().toString().replaceAll("[^a-zA-ZÀ-ú/ ]", "").trim();
+                    Toast.makeText(this, "Categoria: " + categoriaSelecionada, Toast.LENGTH_SHORT).show();
+                });
             }
-        });
-
-        findViewById(R.id.btnDelete).setOnClickListener(v -> {
-            if (valorEmCents.length() > 1) {
-                valorEmCents.deleteCharAt(valorEmCents.length() - 1);
-            } else {
-                valorEmCents.setLength(0);
-                valorEmCents.append("0");
-            }
-            atualizarDisplayValor();
-        });
-    }
-
-    private void ButtonViewHelper(int id) {
-        findViewById(id).setOnClickListener(v -> {
-            com.google.android.material.button.MaterialButton btn = (com.google.android.material.button.MaterialButton) v;
-            String digit = btn.getText().toString();
-
-            if (valorEmCents.toString().equals("0")) {
-                valorEmCents.setLength(0);
-            }
-            int dotIndex = valorEmCents.indexOf(".");
-            if (dotIndex != -1 && (valorEmCents.length() - dotIndex > 2)) {
-                return;
-            }
-
-            valorEmCents.append(digit);
-            atualizarDisplayValor();
-        });
-    }
-
-    private void atualizarDisplayValor() {
-        try {
-            double valor = Double.parseDouble(valorEmCents.toString().replace(",", "."));
-            DecimalFormat df = new DecimalFormat("#,##0.00");
-            txtValorDisplay.setText("R$ " + df.format(valor));
-        } catch (Exception e) {
-            txtValorDisplay.setText("R$ 0,00");
         }
     }
 
-    private void mostrarDatePicker() {
-        Calendar calendario = Calendar.getInstance();
-        int ano = calendario.get(Calendar.YEAR);
-        int mes = calendario.get(Calendar.MONTH);
-        int dia = calendario.get(Calendar.DAY_OF_MONTH);
+    private void salvarTransacao() {
+        String descricao = inputDescricao != null ? inputDescricao.getText().toString().trim() : "";
+        if (descricao.isEmpty()) {
+            descricao = categoriaSelecionada;
+        }
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            dataAtualStr = String.format(Locale.getDefault(), "%02d/%02d/%d", dayOfMonth, (month + 1), year);
-            txtDataSelecionada.setText(dataAtualStr);
-        }, ano, mes, dia);
-        datePickerDialog.show();
-    }
-
-    private void mostrarDialogoPagamento() {
-        String[] opcoes = {"Débito", "Crédito", "Cartão Virtual", "Smartwatch / Aproximação", "PIX", "Dinheiro"};
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Forma de Pagamento");
-        builder.setItems(opcoes, (dialog, which) -> {
-            formaPagamento = opcoes[which];
-            txtPagamentoSelecionado.setText(formaPagamento + " ▼");
-        });
-        builder.show();
-    }
-
-    private void salvarGasto() {
-        String descricao = inputDescricao.getText() != null ? inputDescricao.getText().toString().trim() : "";
-
-        double valor = 0.0;
+        double valor;
         try {
-            valor = Double.parseDouble(valorEmCents.toString().replace(",", "."));
+            valor = Double.parseDouble(valorAtual);
         } catch (NumberFormatException e) {
             valor = 0.0;
         }
 
         if (valor <= 0) {
-            Toast.makeText(this, "Insira um valor válido para o gasto", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Insira um valor válido!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (descricao.isEmpty()) {
-            descricao = categoriaSelecionada;
+        // Verifica se o utilizador selecionou Receita ou Despesa no RadioGroup
+        String tipo = "DESPESA";
+        if (rgTipoTransacao != null && rgTipoTransacao.getCheckedRadioButtonId() == R.id.rbReceita) {
+            tipo = "RECEITA";
         }
 
-        String dataGasto = txtDataSelecionada.getText().toString();
-        String horarioGasto = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
+        String horaAtual = new SimpleDateFormat("HH:mm", Locale.getDefault()).format(new Date());
 
-        final double valorFinal = valor;
-        final String descFinal = descricao;
+        // Cria a entidade GastoEntity passando o parâmetro 'tipo'
+        GastoEntity novaTransacao = new GastoEntity(
+                descricao,
+                valor,
+                categoriaSelecionada,
+                tipoPagamentoSelecionado,
+                dataSelecionadaStr,
+                horaAtual,
+                tipo
+        );
 
+        // Insere na base de dados Room utilizando uma background thread
         new Thread(() -> {
-            GastoEntity novoGasto = new GastoEntity(descFinal, valorFinal, categoriaSelecionada, formaPagamento, dataGasto, horarioGasto);
-            AppDatabase.getInstance(getApplicationContext()).gastoDao().inserir(novoGasto);
-
+            AppDatabase.getInstance(getApplicationContext()).gastoDao().inserir(novaTransacao);
             runOnUiThread(() -> {
-                Toast.makeText(this, "Gasto adicionado com sucesso! ✅", Toast.LENGTH_SHORT).show();
-                finish();
+                Toast.makeText(this, "Transação guardada com sucesso! 🚀", Toast.LENGTH_SHORT).show();
+                finish(); // Fecha a activity e regressa à anterior
             });
         }).start();
     }

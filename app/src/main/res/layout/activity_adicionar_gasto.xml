@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Adicionar gasto"
+            android:text="Adicionar Transação"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@android:color/white" />
@@ -42,7 +42,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Registre seu novo lançamento"
+            android:text="Registe uma despesa ou receita (+)"
             android:textSize="12sp"
             android:textColor="#E2E8F0"
             android:layout_marginBottom="16dp" />
@@ -80,6 +80,47 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <!-- Seletor de Tipo (Despesa vs Receita) -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="16dp">
+
+                <RadioGroup
+                    android:id="@+id/rgTipoTransacao"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:padding="8dp">
+
+                    <RadioButton
+                        android:id="@+id/rbDespesa"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="🔴 Despesa (-)"
+                        android:textColor="#EF4444"
+                        android:textStyle="bold"
+                        android:buttonTint="#EF4444" />
+
+                    <RadioButton
+                        android:id="@+id/rbReceita"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="🟢 Receita (+)"
+                        android:textColor="#10B981"
+                        android:textStyle="bold"
+                        android:buttonTint="#10B981" />
+
+                </RadioGroup>
+            </androidx.cardview.widget.CardView>
+
             <!-- Descrição Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -108,7 +149,7 @@
                         android:id="@+id/inputDescricao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Ex: Mercado, Uber, Farmácia..."
+                        android:hint="Ex: Salário, Mercado, Pix recebido..."
                         android:textSize="15sp"
                         android:textColor="#1E293B"
                         android:textColorHint="#94A3B8"
@@ -150,6 +191,7 @@
                         android:alignmentMode="alignMargins"
                         android:columnOrderPreserved="false">
 
+                        <TextView android:id="@+id/catSalario" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="💰 Salário/Entrada" android:textSize="13sp" android:textStyle="bold" android:textColor="#1E293B" android:background="@drawable/bg_chip_selector" android:padding="12dp" android:layout_margin="4dp" android:gravity="center_vertical" android:clickable="true" android:focusable="true"/>
                         <TextView android:id="@+id/catAlimentacao" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="🍔 Alimentação" android:textSize="13sp" android:textStyle="bold" android:textColor="#1E293B" android:background="@drawable/bg_chip_selector" android:padding="12dp" android:layout_margin="4dp" android:gravity="center_vertical" android:clickable="true" android:focusable="true"/>
                         <TextView android:id="@+id/catMoradia" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="🏠 Moradia" android:textSize="13sp" android:textStyle="bold" android:textColor="#1E293B" android:background="@drawable/bg_chip_selector" android:padding="12dp" android:layout_margin="4dp" android:gravity="center_vertical" android:clickable="true" android:focusable="true"/>
                         <TextView android:id="@+id/catTransporte" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_columnWeight="1" android:text="🚗 Transporte" android:textSize="13sp" android:textStyle="bold" android:textColor="#1E293B" android:background="@drawable/bg_chip_selector" android:padding="12dp" android:layout_margin="4dp" android:gravity="center_vertical" android:clickable="true" android:focusable="true"/>
@@ -296,7 +338,7 @@
                 android:id="@+id/btnSalvarGasto"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:text="Adicionar gasto"
+                android:text="Guardar Transação"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
