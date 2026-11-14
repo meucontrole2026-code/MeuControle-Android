@@ -1,0 +1,16 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MeuControle" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Cor Primária do Aplicativo (Royal Blue) -->
+        <item name="colorPrimary">#1E63F5</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <!-- Cor da Barra de Status -->
+        <item name="android:statusBarColor">#1E63F5</item>
+
+        <!-- Opcional: Garante que os componentes respeitam a paleta do Material3 -->
+        <item name="colorSecondary">#1E63F5</item>
+    </style>
+
+    <style name="Theme.MeuControle" parent="Base.Theme.MeuControle" />
+</resources>

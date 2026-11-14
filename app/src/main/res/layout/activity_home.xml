@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="#F8F9FA">
+
+    <!-- Scroll com todo o conteúdo e padding em baixo para não ficar tapado pela barra -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="75dp"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Barra Superior -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="12dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Olá, Gabriela Santos 👋"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#1E293B" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Controle Financeiro"
+                        android:textSize="12sp"
+                        android:textColor="#64748B" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/btnSair"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sair 🚪"
+                    android:textSize="13sp"
+                    android:textColor="#EF4444"
+                    android:textStyle="bold"
+                    android:padding="8dp" />
+            </LinearLayout>
+
+            <!-- Cartão Principal de Resumo (Royal Blue) -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="#1E63F5"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="4dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Saldo Líquido Disponível"
+                            android:textSize="13sp"
+                            android:textColor="#E2E8F0" />
+
+                        <TextView
+                            android:id="@+id/btnEditarRenda"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Editar Renda ✏️"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:padding="4dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtSaldoDisponivel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0,00"
+                        android:textSize="26sp"
+                        android:textStyle="bold"
+                        android:textColor="@android:color/white"
+                        android:layout_marginBottom="16dp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#33FFFFFF"
+                        android:layout_marginBottom="12dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fixa / Var." android:textSize="10sp" android:textColor="#E2E8F0" />
+                            <TextView android:id="@+id/txtRendaFixaVar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 / 0" android:textSize="12sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Despesas" android:textSize="10sp" android:textColor="#E2E8F0" />
+                            <TextView android:id="@+id/txtTotalDespesas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0,00" android:textSize="12sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="end">
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Metas" android:textSize="10sp" android:textColor="#E2E8F0" />
+                            <TextView android:id="@+id/txtTotalMetas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0,00" android:textSize="12sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Card de Dica da IA -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardDicaIA"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="#EFF6FF"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🤖" android:textSize="22sp" android:layout_marginEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/txtDicaIA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="✨ Dica da IA: Orçamento sob controle! Continue mantendo esse ritmo."
+                        android:textSize="12sp"
+                        android:textColor="#1E40AF"
+                        android:textStyle="normal" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Cabeçalho Extrato com Botão Ver Todos -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Extrato Recente"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="#1E293B" />
+
+                <TextView
+                    android:id="@+id/btnVerTodos"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ver todos →"
+                    android:textSize="13sp"
+                    android:textColor="#1E63F5"
+                    android:textStyle="bold"
+                    android:background="?attr/selectableItemBackground"
+                    android:padding="4dp"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
+
+            <!-- RecyclerView do Extrato -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerViewGastos"
+                android:nestedScrollingEnabled="false" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Barra de Navegação Inferior Fixa (Ordem: Início, IA Voz, Novo, Análises, Perfil) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/white"
+        android:elevation="16dp"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:gravity="center_vertical">
+
+        <!-- 1. Início (Com Destaque Circular Azul) -->
+        <LinearLayout
+            android:id="@+id/btnMenuInicio"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+
+            <FrameLayout
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/bg_circle_blue"
+                android:elevation="4dp"
+                android:gravity="center">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="🏠"
+                    android:textSize="18sp"
+                    android:gravity="center"/>
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Início"
+                android:textSize="10sp"
+                android:textColor="#1E63F5"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- 2. IA Voz -->
+        <LinearLayout
+            android:id="@+id/btnMenuIa"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🎙️" android:textSize="18sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IA Voz" android:textSize="10sp" android:textColor="#64748B"/>
+        </LinearLayout>
+
+        <!-- 3. Novo (+) -->
+        <LinearLayout
+            android:id="@+id/btnMenuAdicionar"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="➕" android:textSize="18sp" android:textColor="#1E63F5"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Novo" android:textSize="10sp" android:textColor="#1E63F5" android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- 4. Análises -->
+        <LinearLayout
+            android:id="@+id/btnMenuAnalises"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📊" android:textSize="18sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Análises" android:textSize="10sp" android:textColor="#64748B"/>
+        </LinearLayout>
+
+        <!-- 5. Perfil -->
+        <LinearLayout
+            android:id="@+id/btnMenuPerfil"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="👤" android:textSize="18sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Perfil" android:textSize="10sp" android:textColor="#64748B"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

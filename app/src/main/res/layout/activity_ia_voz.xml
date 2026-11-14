@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA"
+    android:fitsSystemWindows="true">
+
+    <!-- Barra Superior com Botão de Voltar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@android:color/white"
+        android:elevation="2dp">
+
+        <TextView
+            android:id="@+id/btnVoltar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Voltar"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#1E63F5"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Assistente IA Inteligente"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#1E293B"
+            android:gravity="center"
+            android:layout_marginEnd="40dp" />
+    </LinearLayout>
+
+    <!-- Conteúdo Scrollável -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+
+            <TextView
+                android:id="@+id/txtStatusVoz"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Escolha uma das opções abaixo para registar os seus gastos automaticamente:"
+                android:textSize="14sp"
+                android:textColor="#334155"
+                android:gravity="center"
+                android:layout_marginBottom="24dp" />
+
+            <!-- 1. Botão Principal de Voz -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardBtnOuvir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="#1E63F5"
+                android:layout_marginBottom="14dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="🎙️" android:textSize="28sp" android:layout_marginEnd="16dp"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Falar com a IA" android:textSize="16sp" android:textStyle="bold" android:textColor="@android:color/white"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Diga o seu gasto por voz (ex: Mercado 45 reais)" android:textSize="12sp" android:textColor="#E2E8F0"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 2. Botão de Leitura de Cupom Fiscal -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCupomFiscal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="14dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="📸" android:textSize="28sp" android:layout_marginEnd="16dp"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Leitura de Cupom Fiscal" android:textSize="16sp" android:textStyle="bold" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Tirar foto ou importar talão para registo automático" android:textSize="12sp" android:textColor="#64748B"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 3. Botão de Sincronização com Smartwatch -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardSmartwatch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="14dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="⌚" android:textSize="28sp" android:layout_marginEnd="16dp"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sincronizar Smartwatch" android:textSize="16sp" android:textStyle="bold" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ativar permissões de notificação do relógio" android:textSize="12sp" android:textColor="#64748B"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- 4. Botão de Sincronização com Carteira Virtual -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCarteiraVirtual"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="14dp"
+                android:clickable="true"
+                android:focusable="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp"
+                    android:gravity="center_vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="💳" android:textSize="28sp" android:layout_marginEnd="16dp"/>
+                    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Sincronizar Carteira Virtual" android:textSize="16sp" android:textStyle="bold" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Ligar notificações bancárias e Apple/Google Pay" android:textSize="12sp" android:textColor="#64748B"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

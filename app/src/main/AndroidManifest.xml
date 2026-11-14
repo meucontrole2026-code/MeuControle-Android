@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MeuControle">
+
+        <!-- Ecrã de Login (Primeira tela a abrir) -->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Ecrã de Cadastro -->
+        <activity
+            android:name=".ui.CadastroActivity"
+            android:exported="false" />
+
+        <!-- Fluxo Completo de Recuperação de Senha -->
+        <activity
+            android:name=".ui.EsqueciSenhaActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.ValidarCodigoActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.NovaSenhaActivity"
+            android:exported="false" />
+
+        <!-- Tela Principal / Início -->
+        <activity
+            android:name=".ui.HomeActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Extrato e Gestão de Gastos -->
+        <activity
+            android:name=".ui.GastosActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.AdicionarGastoActivity"
+            android:exported="false" />
+
+        <!-- Configurações e Backup -->
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.TermosPrivacidadeActivity"
+            android:exported="false" />
+
+        <!-- Ecrã de Perfil / Edição de Renda -->
+        <activity
+            android:name=".ui.PerfilActivity"
+            android:exported="false" />
+
+        <!-- Assistente de Voz e IA -->
+        <activity
+            android:name=".ui.IaVozActivity"
+            android:exported="false" />
+
+        <!-- Tela de Análises e Gráficos -->
+        <activity
+            android:name=".ui.AnalisesActivity"
+            android:exported="false" />
+
+
+
+        <!-- Serviço de Notificações Bancárias -->
+        <service
+            android:name=".service.BancoNotificationListener"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

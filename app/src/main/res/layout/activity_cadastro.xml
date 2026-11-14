@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#F8F9FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="24dp">
+
+        <!-- Ícone / Logo -->
+        <TextView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:text="📝"
+            android:textSize="36sp"
+            android:gravity="center"
+            android:background="@drawable/fundo_card_verde_claro"
+            android:layout_marginBottom="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Criar Nova Conta"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#0F172A"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Preencha os dados para começar a gerir"
+            android:textSize="13sp"
+            android:textColor="#64748B"
+            android:layout_marginBottom="28dp" />
+
+        <!-- Nome Completo -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="#0F8A5F"
+            app:hintTextColor="#0F8A5F"
+            app:boxBackgroundColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputNome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome completo"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                android:textColor="#0F172A"
+                android:textColorHint="#475569" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- E-mail -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="#0F8A5F"
+            app:hintTextColor="#0F8A5F"
+            app:boxBackgroundColor="@android:color/white">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputEmailCadastro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="E-mail"
+                android:inputType="textEmailAddress"
+                android:textSize="14sp"
+                android:textColor="#0F172A"
+                android:textColorHint="#475569" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Senha -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            app:boxStrokeColor="#0F8A5F"
+            app:hintTextColor="#0F8A5F"
+            app:boxBackgroundColor="@android:color/white"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/inputSenhaCadastro"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Palavra-passe"
+                android:inputType="textPassword"
+                android:textSize="14sp"
+                android:textColor="#0F172A"
+                android:textColorHint="#475569" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Requisitos da senha -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="A senha deve conter: mín. de 6 caracteres, 1 letra maiúscula, 1 número e 1 caractere especial (@#$%^&amp;+=)."
+            android:textSize="11sp"
+            android:textColor="#64748B"
+            android:layout_marginBottom="24dp"
+            android:paddingStart="4dp" />
+
+        <!-- Botão Registar -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:id="@+id/btnCadastrar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Registar Conta"
+                android:backgroundTint="#0F8A5F"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                app:cornerRadius="12dp" />
+
+            <ProgressBar
+                android:id="@+id/progressBarCadastro"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@android:color/white"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <!-- Aceite dos Termos de Uso -->
+        <CheckBox
+            android:id="@+id/checkTermos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Li e concordo com os Termos de Uso e Política de Privacidade"
+            android:textSize="12sp"
+            android:textColor="#334155"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Voltar para o Login -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Já tem uma conta? "
+                android:textSize="13sp"
+                android:textColor="#64748B" />
+
+            <TextView
+                android:id="@+id/txtIrParaLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Faça login"
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#0F8A5F" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F9FA">
+
+    <!-- Barra Superior Fixa -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarSettings"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#0F8A5F"
+        app:title="Configurações e Segurança"
+        app:titleTextColor="@android:color/white" />
+
+    <!-- Conteúdo com Scroll abaixo da Toolbar -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/btnExportarBackup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Exportar Cópia de Segurança (.db)"
+                android:backgroundTint="#0F8A5F"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnExportarPdf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Baixar Extrato / Relatório (PDF)"
+                android:backgroundTint="#0F8A5F"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Modo Escuro -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="8dp"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Modo Escuro (Dark Mode)"
+                    android:textColor="#1E293B"
+                    android:textSize="15sp" />
+
+                <Switch
+                    android:id="@+id/switchModoEscuro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <!-- Biometria -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingVertical="8dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Exigir Biometria / PIN ao abrir"
+                    android:textColor="#1E293B"
+                    android:textSize="15sp" />
+
+                <Switch
+                    android:id="@+id/switchBiometria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnAjuda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ajuda e Suporte"
+                android:backgroundTint="#0F8A5F"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnTermos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Termos de Uso"
+                android:backgroundTint="#0F8A5F"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="8dp" />
+
+            <Button
+                android:id="@+id/btnPrivacidade"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Política de Privacidade"
+                android:backgroundTint="#0F8A5F"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

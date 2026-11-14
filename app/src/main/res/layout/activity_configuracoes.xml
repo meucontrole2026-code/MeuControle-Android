@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8FAFC"
+    android:fitsSystemWindows="true">
+
+    <!-- Cabeçalho -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#1E63F5"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/btnVoltar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="← Voltar"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:background="?attr/selectableItemBackground"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Configurações"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:layout_marginEnd="48dp"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- ================= MINHA CONTA ================= -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="MINHA CONTA"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#1E63F5"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout android:id="@+id/menuEditarPerfil"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Editar perfil" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuAlterarEmail"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Alterar e-mail" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuAlterarSenha"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Alterar senha" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuExcluirConta"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Excluir conta" android:textSize="15sp" android:textColor="#EF4444" android:textStyle="bold"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ================= SEGURANÇA E PRIVACIDADE ================= -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="SEGURANÇA E PRIVACIDADE"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#1E63F5"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout android:id="@+id/menuBiometria"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Ativar/desativar biometria" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuBloqueio"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Configurar bloqueio automático" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuPoliticaPrivacidade"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Consultar política de privacidade" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuSolicitarExclusao"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Solicitar exclusão dos dados" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ================= PREFERÊNCIAS DO APLICATIVO ================= -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PREFERÊNCIAS DO APLICATIVO"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#1E63F5"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout android:id="@+id/menuNotificacoesApp"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Ativar/desativar notificações" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuTema"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Tema claro ou escuro" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuMoeda"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Configurar moeda (R$)" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuVencimentos"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Notificações de vencimentos" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuLembretes"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Lembretes financeiros" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ================= AJUDA E INFORMAÇÕES ================= -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AJUDA E INFORMAÇÕES"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:textColor="#1E63F5"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="4dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout android:id="@+id/menuCentralAjuda"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Central de ajuda" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuTermosUso"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Termos de uso" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuPoliticaInfo"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Política de privacidade" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuSobreApp"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Sobre o aplicativo" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text=">" android:textColor="#94A3B8"/>
+                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F1F5F9" android:layout_marginHorizontal="16dp"/>
+
+                    <LinearLayout android:id="@+id/menuVersaoApp"
+                        android:layout_width="match_parent" android:layout_height="52dp"
+                        android:orientation="horizontal" android:gravity="center_vertical"
+                        android:background="?attr/selectableItemBackground" android:paddingHorizontal="16dp"
+                        android:clickable="true" android:focusable="true">
+                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Versão do aplicativo" android:textSize="15sp" android:textColor="#1E293B"/>
+                        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="v1.0" android:textColor="#94A3B8" android:textStyle="bold"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- ================= SAIR DA CONTA ================= -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:cardBackgroundColor="@android:color/white"
+                android:layout_marginBottom="32dp">
+
+                <LinearLayout
+                    android:id="@+id/menuSairConta"
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:background="?attr/selectableItemBackground"
+                    android:paddingHorizontal="16dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Sair da conta"
+                        android:textSize="15sp"
+                        android:textStyle="bold"
+                        android:textColor="#EF4444"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
