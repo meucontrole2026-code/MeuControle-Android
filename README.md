@@ -79,25 +79,43 @@ O projeto utiliza uma arquitetura com armazenamento local, autenticação de uti
 
 ## 📸 4. Capturas de Tela da Aplicação
 
-A seguir, são apresentadas seis telas principais do MeuControle, demonstrando a interface e as funcionalidades da aplicação.
+Conheça as principais interfaces do MeuControle e suas funcionalidades.
 
-### 4.1. Tela de Login
-<img src="screenshots/tela_login.jpeg" alt="Tela de Login" width="250">
+### 🔐 4.1. Autenticação
 
-### 4.2. Tela Inicial
-<img src="screenshots/tela_inicio.jpeg" alt="Tela Inicial" width="250">
+| Login | Criar Conta | Recuperação de E-mail |
+|:---:|:---:|:---:|
+| <img src="img/tela_login.jpeg" width="200"> | <img src="img/tela_criar_conta.jpeg" width="200"> | <img src="img/tela_email_recuperacao.jpeg" width="200"> |
 
-### 4.3. Tela de Lançamentos
-<img src="screenshots/tela_lancamentos.jpeg" alt="Tela de Lançamentos" width="250">
+### 🏠 4.2. Tela Inicial
 
-### 4.4. Tela de Análises
-<img src="screenshots/tela_analises.jpeg" alt="Tela de Análises" width="250">
+<p align="left">
+  <img src="img/tela_inicio.jpeg" width="250">
+</p>
 
-### 4.5. Tela de Perfil
-<img src="screenshots/tela_perfil.jpeg" alt="Tela de Perfil" width="250">
+### 🤖 4.3. Assistente IA Voz
 
-### 4.6. Tela de Configurações
-<img src="screenshots/tela_configuracoes.jpeg" alt="Tela de Configurações" width="250">
+<p align="left">
+  <img src="img/tela_ia.jpeg" width="250">
+</p>
+
+### 💸 4.4. Novo Gasto
+
+<p align="left">
+  <img src="img/tela_gasto.jpeg" width="250">
+</p>
+
+### 📊 4.5. Análises e Relatórios
+
+| Análises Financeiras | Relatórios |
+|:---:|:---:|
+| <img src="img/tela_analises.jpeg" width="230"> | <img src="img/tela_relatorio.jpeg" width="230"> |
+
+### 👤 4.6. Perfil do Utilizador
+
+| Perfil | Perfil — Informações Adicionais |
+|:---:|:---:|
+| <img src="img/tela_perfil.jpeg" width="230"> | <img src="img/tela_perfil2.jpeg" width="230"> |
 
 ---
 
