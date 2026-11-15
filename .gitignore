@@ -2,3 +2,10 @@
 /shelf/
 /.idea/workspace.xml
 /app/google-services.json
+
+# Android Build & Gradle ignored folders
+/build/
+/app/build/
+.gradle/
+.idea/
+local.properties
