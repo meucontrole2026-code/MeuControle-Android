@@ -36,3 +36,14 @@ O projeto foi construído seguindo boas práticas de desenvolvimento mobile:
 1. Clona o repositório para a tua máquina:
    ```bash
    git clone [https://github.com/teu-utilizador/MeuControle.git](https://github.com/teu-utilizador/MeuControle.git)
+
+   Abre o Android Studio e seleciona Open an Existing Project.
+
+Nota de Segurança: Como o ficheiro de configuração do Firebase (google-services.json) é ignorado pelo Git por motivos de segurança, deves colocar o teu próprio ficheiro google-services.json (descarregado da Consola do Firebase) dentro da pasta app/ do projeto.
+
+Clica em Sync Project with Gradle Files e faz um Rebuild Project.
+
+Executa num emulador ou dispositivo físico com Android 7.0 (API 24) ou superior.
+
+### 👥 Equipa de Desenvolvimento & Autoria
+Projeto desenvolvido no âmbito académico do curso de Análise e Desenvolvimento de Sistemas (ADS) da Universidade Cidade de São Paulo (UNICID)
