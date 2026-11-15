@@ -1,4 +1,4 @@
-💰 MeuControle - Gestão Financeira Inteligente
+# 💰 MeuControle - Gestão Financeira Inteligente
 
 O **MeuControle** é uma aplicação nativa para Android desenvolvida em Java, focada em ajudar os utilizadores a gerir as suas finanças pessoais de forma simples, segura e automatizada. O projeto apresenta uma identidade visual moderna baseada no **Azul Royal (`#1E63F5`)** e integra serviços em nuvem e inteligência artificial.
 
@@ -20,7 +20,7 @@ O projeto foi construído seguindo boas práticas de desenvolvimento mobile:
 
 1. **Autenticação Segura:**
    * Validação de e-mails e senhas fortes com regras em Regex.
-   * Botão de alternância para visibilidade de senha (ícone de olho) e integração direta com o Firebase Auth.
+   * Botão de alternância para visibilidade de senha e integração direta com o Firebase Auth.
 2. **Ecrã Principal & Extrato:**
    * Saudação personalizada com o nome obtido do perfil do utilizador.
    * Listagem dinâmica de receitas e despesas.
