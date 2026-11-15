@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662527548153",
+    "project_id": "meucontrole-e2535",
+    "storage_bucket": "meucontrole-e2535.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662527548153:android:b5a4fbc844effdf4a2a028",
+        "android_client_info": {
+          "package_name": "com.example.meucontrole"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2YZDoFOzkwvARk2LAD7bx1muzE_re0Bs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

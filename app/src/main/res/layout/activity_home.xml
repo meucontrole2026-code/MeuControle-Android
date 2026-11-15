@@ -21,7 +21,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Barra Superior -->
+            <!-- Barra Superior com Saudação Dinâmica -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -34,13 +34,16 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical">
+
                     <TextView
+                        android:id="@+id/txtSaudacao"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Olá, Gabriela Santos 👋"
+                        android:text="Olá, Utilizador 👋"
                         android:textSize="18sp"
                         android:textStyle="bold"
                         android:textColor="#1E293B" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -103,9 +106,9 @@
 
                     <TextView
                         android:id="@+id/txtSaldoDisponivel"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="0,00"
+                        android:text="R$ 0,00"
                         android:textSize="26sp"
                         android:textStyle="bold"
                         android:textColor="@android:color/white"
@@ -117,7 +120,7 @@
                         android:background="#33FFFFFF"
                         android:layout_marginBottom="12dp" />
 
-                    <!-- Linha inferior dividida apenas em 2 colunas (Fixa/Var e Despesas) -->
+                    <!-- Linha inferior dividida em APENAS 2 colunas (Fixa/Var e Despesas) -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -130,7 +133,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fixa / Var." android:textSize="11sp" android:textColor="#E2E8F0" />
-                            <TextView android:id="@+id/txtRendaFixaVar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 / 0" android:textSize="13sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                            <TextView android:id="@+id/txtRendaFixaVar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R$ 0 / R$ 0" android:textSize="13sp" android:textStyle="bold" android:textColor="@android:color/white" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -139,7 +142,7 @@
                             android:layout_weight="1"
                             android:orientation="vertical">
                             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Despesas" android:textSize="11sp" android:textColor="#E2E8F0" />
-                            <TextView android:id="@+id/txtTotalDespesas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0,00" android:textSize="13sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                            <TextView android:id="@+id/txtTotalDespesas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="R$ 0,00" android:textSize="13sp" android:textStyle="bold" android:textColor="@android:color/white" />
                         </LinearLayout>
 
                     </LinearLayout>
@@ -218,7 +221,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Barra de Navegação Inferior Fixa (Ordem: Início, IA Voz, Novo, Análises, Perfil) -->
+    <!-- Barra de Navegação Inferior Fixa -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="65dp"
@@ -229,7 +232,7 @@
         android:weightSum="5"
         android:gravity="center_vertical">
 
-        <!-- 1. Início (Com Destaque Circular Azul) -->
+        <!-- 1. Início -->
         <LinearLayout
             android:id="@+id/btnMenuInicio"
             android:layout_width="0dp"

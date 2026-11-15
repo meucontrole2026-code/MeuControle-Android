@@ -13,15 +13,42 @@
         android:gravity="center"
         android:padding="24dp">
 
-        <!-- Ícone / Logo -->
-        <TextView
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:text="📝"
-            android:textSize="36sp"
-            android:gravity="center"
-            android:background="@drawable/fundo_card_verde_claro"
-            android:layout_marginBottom="20dp" />
+        <!-- Botão Voltar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
+
+            <TextView
+                android:id="@+id/btnVoltarLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="← Voltar"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#1E63F5"
+                android:background="?attr/selectableItemBackground"
+                android:padding="4dp"
+                android:clickable="true"
+                android:focusable="true" />
+        </LinearLayout>
+
+        <!-- Ícone / Logo Circular Azul -->
+        <FrameLayout
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/bg_circle_blue"
+            android:layout_marginBottom="20dp"
+            android:elevation="4dp"
+            android:gravity="center">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="📝"
+                android:textSize="32sp"
+                android:gravity="center"/>
+        </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"
@@ -46,8 +73,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="#0F8A5F"
-            app:hintTextColor="#0F8A5F"
+            app:boxStrokeColor="#1E63F5"
+            app:hintTextColor="#1E63F5"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -67,8 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="#0F8A5F"
-            app:hintTextColor="#0F8A5F"
+            app:boxStrokeColor="#1E63F5"
+            app:hintTextColor="#1E63F5"
             app:boxBackgroundColor="@android:color/white">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -82,14 +109,14 @@
                 android:textColorHint="#475569" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Senha -->
+        <!-- Senha com o Olho Interativo (passwordToggleEnabled) -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:boxStrokeColor="#0F8A5F"
-            app:hintTextColor="#0F8A5F"
+            app:boxStrokeColor="#1E63F5"
+            app:hintTextColor="#1E63F5"
             app:boxBackgroundColor="@android:color/white"
             app:passwordToggleEnabled="true">
 
@@ -104,7 +131,7 @@
                 android:textColorHint="#475569" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Requisitos da senha -->
+        <!-- Requisitos detalhados da senha -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -125,7 +152,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="Registar Conta"
-                android:backgroundTint="#0F8A5F"
+                android:backgroundTint="#1E63F5"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 app:cornerRadius="12dp" />
@@ -169,7 +196,7 @@
                 android:text="Faça login"
                 android:textSize="13sp"
                 android:textStyle="bold"
-                android:textColor="#0F8A5F" />
+                android:textColor="#1E63F5" />
         </LinearLayout>
 
     </LinearLayout>

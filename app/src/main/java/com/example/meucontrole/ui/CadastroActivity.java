@@ -1,9 +1,7 @@
 package com.example.meucontrole.ui;
 
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -11,28 +9,49 @@ import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.meucontrole.R;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class CadastroActivity extends AppCompatActivity {
 
     private TextInputEditText inputNome, inputEmailCadastro, inputSenhaCadastro;
     private ProgressBar progressBarCadastro;
     private Button btnCadastrar;
-    private CheckBox checkTermos; // 1. Variável do CheckBox dos Termos
+    private CheckBox checkTermos;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            FirebaseApp.initializeApp(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         setContentView(R.layout.activity_cadastro);
+
+        try {
+            mAuth = FirebaseAuth.getInstance();
+        } catch (Exception e) {
+            Toast.makeText(this, "Erro ao iniciar o Firebase.", Toast.LENGTH_LONG).show();
+        }
 
         inputNome = findViewById(R.id.inputNome);
         inputEmailCadastro = findViewById(R.id.inputEmailCadastro);
         inputSenhaCadastro = findViewById(R.id.inputSenhaCadastro);
         progressBarCadastro = findViewById(R.id.progressBarCadastro);
         btnCadastrar = findViewById(R.id.btnCadastrar);
-        checkTermos = findViewById(R.id.checkTermos); // 2. Inicialização do ID do XML
+        checkTermos = findViewById(R.id.checkTermos);
         TextView txtIrParaLogin = findViewById(R.id.txtIrParaLogin);
 
         btnCadastrar.setOnClickListener(v -> validarEfetuarCadastro());
@@ -74,7 +93,7 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        // Validação rigorosa por Regex
+        // Validação rigorosa por Regex (Maiúscula, número e caractere especial)
         String regexSenha = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9]).{6,}$";
 
         if (!senha.matches(regexSenha)) {
@@ -83,29 +102,56 @@ public class CadastroActivity extends AppCompatActivity {
             return;
         }
 
-        // 3. Validação de Aceite Obrigatório dos Termos de Uso e Privacidade
+        // Validação de Aceite Obrigatório dos Termos de Uso
         if (checkTermos != null && !checkTermos.isChecked()) {
             Toast.makeText(this, "Deve aceitar os Termos de Uso e a Política de Privacidade para continuar.", Toast.LENGTH_LONG).show();
             checkTermos.requestFocus();
             return;
         }
 
-        // Mostra o indicador de carregamento
+        if (mAuth == null) {
+            Toast.makeText(this, "Erro: Firebase não configurado corretamente.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Mostrar progresso
         progressBarCadastro.setVisibility(View.VISIBLE);
         btnCadastrar.setEnabled(false);
         btnCadastrar.setText("");
 
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            progressBarCadastro.setVisibility(View.GONE);
+        // Criar conta no Firebase
+        mAuth.createUserWithEmailAndPassword(email, senha)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(nome)
+                                    .build();
+
+                            user.updateProfile(profileUpdates).addOnCompleteListener(profileTask -> {
+                                ocultarProgresso();
+                                Toast.makeText(this, "Conta criada com sucesso! 🚀", Toast.LENGTH_LONG).show();
+
+                                Intent intent = new Intent(CadastroActivity.this, HomeActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+                    } else {
+                        ocultarProgresso();
+                        String erro = task.getException() != null ? task.getException().getMessage() : "Erro desconhecido";
+                        Toast.makeText(this, "Erro ao criar conta: " + erro, Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void ocultarProgresso() {
+        if (progressBarCadastro != null) progressBarCadastro.setVisibility(View.GONE);
+        if (btnCadastrar != null) {
             btnCadastrar.setEnabled(true);
             btnCadastrar.setText("Registar Conta");
-
-            // Utiliza o mesmo nome de chave "SessaoSeguraPrefs" se estiver a usar encriptação, ou SharedPreferences padrão
-            SharedPreferences prefs = getSharedPreferences("SessaoPrefs", MODE_PRIVATE);
-            prefs.edit().putString("emailCadastrado", email).putString("senhaCadastrada", senha).apply();
-
-            Toast.makeText(this, "Conta criada com sucesso! Faça login.", Toast.LENGTH_LONG).show();
-            finish();
-        }, 1500);
+        }
     }
 }

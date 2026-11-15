@@ -18,12 +18,13 @@ import com.example.meucontrole.R;
 import com.example.meucontrole.data.local.AppDatabase;
 import com.example.meucontrole.data.local.GastoEntity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView btnSair, btnEditarRenda, txtSaldoDisponivel, txtRendaFixaVar, txtTotalDespesas, txtDicaIA, btnVerTodos;
+    private TextView btnSair, btnEditarRenda, txtSaldoDisponivel, txtRendaFixaVar, txtTotalDespesas, txtDicaIA, btnVerTodos, txtSaudacao;
     private CardView cardDicaIA;
     private RecyclerView recyclerViewGastos;
     private GastoAdapter gastoAdapter;
@@ -39,7 +40,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Inicializar Views (Sem metas)
+        // Inicializar Views
         btnSair = findViewById(R.id.btnSair);
         btnEditarRenda = findViewById(R.id.btnEditarRenda);
         txtSaldoDisponivel = findViewById(R.id.txtSaldoDisponivel);
@@ -49,6 +50,10 @@ public class HomeActivity extends AppCompatActivity {
         cardDicaIA = findViewById(R.id.cardDicaIA);
         btnVerTodos = findViewById(R.id.btnVerTodos);
         recyclerViewGastos = findViewById(R.id.recyclerViewGastos);
+        txtSaudacao = findViewById(R.id.txtSaudacao);
+
+        // Carregar Nome Dinâmico do Utilizador Logado (Firebase Auth)
+        configurarSaudacaoUsuario();
 
         sharedPreferences = getSharedPreferences("SessaoPrefs", MODE_PRIVATE);
         rendaFixa = sharedPreferences.getFloat("rendaFixa", 2500.0f);
@@ -97,6 +102,24 @@ public class HomeActivity extends AppCompatActivity {
         configurarBarraNavegacaoHome();
     }
 
+    private void configurarSaudacaoUsuario() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null && txtSaudacao != null) {
+            String nome = user.getDisplayName();
+            if (nome == null || nome.isEmpty()) {
+                String email = user.getEmail();
+                if (email != null && email.contains("@")) {
+                    nome = email.split("@")[0];
+                    // Capitaliza a primeira letra
+                    nome = nome.substring(0, 1).toUpperCase() + nome.substring(1);
+                } else {
+                    nome = "Utilizador";
+                }
+            }
+            txtSaudacao.setText("Olá, " + nome + " 👋");
+        }
+    }
+
     private void configurarBarraNavegacaoHome() {
         if (findViewById(R.id.btnMenuGastos) != null) {
             findViewById(R.id.btnMenuGastos).setOnClickListener(v -> startActivity(new Intent(this, GastosActivity.class)));
@@ -121,6 +144,7 @@ public class HomeActivity extends AppCompatActivity {
         if (sharedPreferences != null) {
             rendaFixa = sharedPreferences.getFloat("rendaFixa", 2500.0f);
             rendaVariavel = sharedPreferences.getFloat("rendaVariavel", 1300.0f);
+            configurarSaudacaoUsuario();
             atualizarInterfaceEstatisticas();
         }
     }
@@ -188,8 +212,6 @@ public class HomeActivity extends AppCompatActivity {
 
         double rendaBaseTotal = rendaFixa + rendaVariavel;
         double rendaTotalGeral = rendaBaseTotal + totalReceitasExtras;
-
-        // Saldo líquido exato (Renda + Receitas Extras - Despesas)
         double saldoLiquido = rendaTotalGeral - totalDespesas;
 
         if (txtSaldoDisponivel != null) txtSaldoDisponivel.setText(String.format("%s %.2f", simboloMoeda, saldoLiquido));
