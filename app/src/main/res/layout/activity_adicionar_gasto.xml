@@ -32,9 +32,10 @@
             android:layout_marginBottom="12dp" />
 
         <TextView
+            android:id="@+id/txtTituloHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Adicionar Transação"
+            android:text="Adicionar gasto"
             android:textSize="22sp"
             android:textStyle="bold"
             android:textColor="@android:color/white" />

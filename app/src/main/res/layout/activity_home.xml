@@ -117,19 +117,20 @@
                         android:background="#33FFFFFF"
                         android:layout_marginBottom="12dp" />
 
+                    <!-- Linha inferior dividida apenas em 2 colunas (Fixa/Var e Despesas) -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:weightSum="3">
+                        android:weightSum="2">
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fixa / Var." android:textSize="10sp" android:textColor="#E2E8F0" />
-                            <TextView android:id="@+id/txtRendaFixaVar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 / 0" android:textSize="12sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Fixa / Var." android:textSize="11sp" android:textColor="#E2E8F0" />
+                            <TextView android:id="@+id/txtRendaFixaVar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0 / 0" android:textSize="13sp" android:textStyle="bold" android:textColor="@android:color/white" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -137,18 +138,8 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:orientation="vertical">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Despesas" android:textSize="10sp" android:textColor="#E2E8F0" />
-                            <TextView android:id="@+id/txtTotalDespesas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0,00" android:textSize="12sp" android:textStyle="bold" android:textColor="@android:color/white" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="end">
-                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Metas" android:textSize="10sp" android:textColor="#E2E8F0" />
-                            <TextView android:id="@+id/txtTotalMetas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0,00" android:textSize="12sp" android:textStyle="bold" android:textColor="@android:color/white" />
+                            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Despesas" android:textSize="11sp" android:textColor="#E2E8F0" />
+                            <TextView android:id="@+id/txtTotalDespesas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0,00" android:textSize="13sp" android:textStyle="bold" android:textColor="@android:color/white" />
                         </LinearLayout>
 
                     </LinearLayout>

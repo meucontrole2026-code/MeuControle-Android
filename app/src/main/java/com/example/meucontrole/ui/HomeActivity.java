@@ -23,7 +23,7 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private TextView btnSair, btnEditarRenda, txtSaldoDisponivel, txtRendaFixaVar, txtTotalDespesas, txtTotalMetas, txtDicaIA, btnVerTodos;
+    private TextView btnSair, btnEditarRenda, txtSaldoDisponivel, txtRendaFixaVar, txtTotalDespesas, txtDicaIA, btnVerTodos;
     private CardView cardDicaIA;
     private RecyclerView recyclerViewGastos;
     private GastoAdapter gastoAdapter;
@@ -32,7 +32,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private double rendaFixa = 2500.0;
     private double rendaVariavel = 1300.0;
-    private double totalMetas = 0.0;
     private List<GastoEntity> listaCompletaGastos = new ArrayList<>();
 
     @Override
@@ -40,13 +39,12 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        // Inicializar Views
+        // Inicializar Views (Sem metas)
         btnSair = findViewById(R.id.btnSair);
         btnEditarRenda = findViewById(R.id.btnEditarRenda);
         txtSaldoDisponivel = findViewById(R.id.txtSaldoDisponivel);
         txtRendaFixaVar = findViewById(R.id.txtRendaFixaVar);
         txtTotalDespesas = findViewById(R.id.txtTotalDespesas);
-        txtTotalMetas = findViewById(R.id.txtTotalMetas);
         txtDicaIA = findViewById(R.id.txtDicaIA);
         cardDicaIA = findViewById(R.id.cardDicaIA);
         btnVerTodos = findViewById(R.id.btnVerTodos);
@@ -176,18 +174,27 @@ public class HomeActivity extends AppCompatActivity {
     private void atualizarInterfaceEstatisticas() {
         String simboloMoeda = sharedPreferences.getString("moedaApp", "R$");
 
-        double totalGastos = 0.0;
+        double totalDespesas = 0.0;
+        double totalReceitasExtras = 0.0;
+
         for (GastoEntity g : listaCompletaGastos) {
-            totalGastos += g.getValor();
+            String tipo = g.getTipo() != null ? g.getTipo() : "DESPESA";
+            if ("RECEITA".equalsIgnoreCase(tipo)) {
+                totalReceitasExtras += g.getValor();
+            } else {
+                totalDespesas += g.getValor();
+            }
         }
 
-        double rendaTotal = rendaFixa + rendaVariavel;
-        double saldoLiquido = rendaTotal - totalGastos - totalMetas;
+        double rendaBaseTotal = rendaFixa + rendaVariavel;
+        double rendaTotalGeral = rendaBaseTotal + totalReceitasExtras;
+
+        // Saldo líquido exato (Renda + Receitas Extras - Despesas)
+        double saldoLiquido = rendaTotalGeral - totalDespesas;
 
         if (txtSaldoDisponivel != null) txtSaldoDisponivel.setText(String.format("%s %.2f", simboloMoeda, saldoLiquido));
         if (txtRendaFixaVar != null) txtRendaFixaVar.setText(String.format("%s %.0f / %s %.0f", simboloMoeda, rendaFixa, simboloMoeda, rendaVariavel));
-        if (txtTotalDespesas != null) txtTotalDespesas.setText(String.format("%s %.2f", simboloMoeda, totalGastos));
-        if (txtTotalMetas != null) txtTotalMetas.setText(String.format("%s %.2f", simboloMoeda, totalMetas));
+        if (txtTotalDespesas != null) txtTotalDespesas.setText(String.format("%s %.2f", simboloMoeda, totalDespesas));
 
         if (txtDicaIA != null) {
             if (saldoLiquido < 0) {
@@ -196,13 +203,13 @@ public class HomeActivity extends AppCompatActivity {
                     cardDicaIA.setCardBackgroundColor(Color.parseColor("#FEE2E2"));
                     txtDicaIA.setTextColor(Color.parseColor("#991B1B"));
                 }
-            } else if (saldoLiquido < (rendaTotal * 0.1)) {
+            } else if (saldoLiquido < (rendaTotalGeral * 0.1)) {
                 txtDicaIA.setText("⚠️ Alerta da IA: Orçamento extremamente apertado!");
                 if (cardDicaIA != null) {
                     cardDicaIA.setCardBackgroundColor(Color.parseColor("#FEF3C7"));
                     txtDicaIA.setTextColor(Color.parseColor("#92400E"));
                 }
-            } else if (totalGastos > (rendaTotal * 0.6)) {
+            } else if (totalDespesas > (rendaTotalGeral * 0.6)) {
                 txtDicaIA.setText("📊 Atenção da IA: Suas despesas estão pesando bastante.");
                 if (cardDicaIA != null) {
                     cardDicaIA.setCardBackgroundColor(Color.parseColor("#FEF3C7"));
