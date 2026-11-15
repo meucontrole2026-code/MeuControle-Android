@@ -84,38 +84,32 @@ Conheça as principais interfaces do MeuControle e suas funcionalidades.
 ### 🔐 4.1. Autenticação
 
 | Login | Criar Conta | Recuperação de E-mail |
-|:---:|:---:|:---:|
-| <img src="img/tela_login.jpeg" width="200"> | <img src="img/tela_criar_conta.jpeg" width="200"> | <img src="img/tela_email_recuperacao.jpeg" width="200"> |
+|---|---|---|
+| ![Login](img/tela_login.jpeg) | ![Criar Conta](img/tela_criar_conta.jpeg) | ![Recuperação](img/tela_email_recuperacao.jpeg) |
 
 ### 🏠 4.2. Tela Inicial
 
-<p align="left">
-  <img src="img/tela_inicio.jpeg" width="250">
-</p>
+![Tela Inicial](img/tela_inicio.jpeg)
 
 ### 🤖 4.3. Assistente IA Voz
 
-<p align="left">
-  <img src="img/tela_ia.jpeg" width="250">
-</p>
+![IA Voz](img/tela_ia.jpeg)
 
 ### 💸 4.4. Novo Gasto
 
-<p align="left">
-  <img src="img/tela_gasto.jpeg" width="250">
-</p>
+![Novo Gasto](img/tela_gasto.jpeg)
 
 ### 📊 4.5. Análises e Relatórios
 
-| Análises Financeiras | Relatórios |
-|:---:|:---:|
-| <img src="img/tela_analises.jpeg" width="230"> | <img src="img/tela_relatorio.jpeg" width="230"> |
+| Análises | Relatórios |
+|---|---|
+| ![Análises](img/tela_analises.jpeg) | ![Relatórios](img/tela_relatorio.jpeg) |
 
-### 👤 4.6. Perfil do Utilizador
+### 👤 4.6. Perfil
 
-| Perfil | Perfil — Informações Adicionais |
-|:---:|:---:|
-| <img src="img/tela_perfil.jpeg" width="230"> | <img src="img/tela_perfil2.jpeg" width="230"> |
+| Perfil | Perfil 2 |
+|---|---|
+| ![Perfil](img/tela_perfil.jpeg) | ![Perfil 2](img/tela_perfil2.jpeg) |
 
 ---
 
